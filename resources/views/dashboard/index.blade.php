@@ -263,56 +263,107 @@
 @section('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function() {
+    // Dados do PHP para JavaScript
+    const demandasCategoria = @json($graficos['demandas_categoria']);
+    const cidadaosBairro = @json($graficos['cidadaos_bairro']);
+
     // Gráfico de Demandas por Categoria
     const ctxCategoria = document.getElementById('demandasCategoriaChart').getContext('2d');
-    new Chart(ctxCategoria, {
-        type: 'doughnut',
-        data: {
-            labels: ['Infraestrutura', 'Saúde', 'Educação', 'Segurança', 'Meio Ambiente'],
-            datasets: [{
-                data: [30, 25, 20, 15, 10],
-                backgroundColor: [
-                    '#667eea',
-                    '#764ba2',
-                    '#f093fb',
-                    '#4facfe',
-                    '#43e97b'
-                ]
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    position: 'bottom'
+
+    if (Object.keys(demandasCategoria).length > 0) {
+        new Chart(ctxCategoria, {
+            type: 'doughnut',
+            data: {
+                labels: Object.keys(demandasCategoria).map(cat => {
+                    // Formatação de categorias
+                    const formatacao = {
+                        'infraestrutura': 'Infraestrutura',
+                        'saude': 'Saúde',
+                        'educacao': 'Educação',
+                        'seguranca': 'Segurança',
+                        'meio_ambiente': 'Meio Ambiente',
+                        'assistencia_social': 'Assistência Social',
+                        'transporte': 'Transporte',
+                        'habitacao': 'Habitação',
+                        'cultura': 'Cultura',
+                        'esporte': 'Esporte',
+                        'outros': 'Outros'
+                    };
+                    return formatacao[cat] || cat;
+                }),
+                datasets: [{
+                    data: Object.values(demandasCategoria),
+                    backgroundColor: [
+                        '#667eea',
+                        '#764ba2',
+                        '#f093fb',
+                        '#4facfe',
+                        '#43e97b',
+                        '#fa709a',
+                        '#fee140',
+                        '#24fe41',
+                        '#9354eb',
+                        '#ec8cff'
+                    ]
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                plugins: {
+                    legend: {
+                        position: 'bottom'
+                    }
                 }
             }
-        }
-    });
+        });
+    } else {
+        // Exibir mensagem quando não há dados
+        ctxCategoria.fillText('Nenhuma demanda cadastrada', 150, 150);
+    }
 
     // Gráfico de Cidadãos por Bairro
     const ctxBairro = document.getElementById('cidadaosBairroChart').getContext('2d');
-    new Chart(ctxBairro, {
-        type: 'bar',
-        data: {
-            labels: ['Centro', 'Vila Nova', 'Jardim das Flores', 'Bela Vista', 'São João'],
-            datasets: [{
-                label: 'Cidadãos',
-                data: [45, 38, 32, 28, 25],
-                backgroundColor: '#667eea'
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: {
-                    beginAtZero: true
+
+    if (Object.keys(cidadaosBairro).length > 0) {
+        new Chart(ctxBairro, {
+            type: 'bar',
+            data: {
+                labels: Object.keys(cidadaosBairro),
+                datasets: [{
+                    label: 'Cidadãos',
+                    data: Object.values(cidadaosBairro),
+                    backgroundColor: '#667eea'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
                 }
             }
-        }
-    });
+        });
+    } else {
+        // Exibir mensagem quando não há dados
+        ctxBairro.fillText('Nenhum cidadão cadastrado', 150, 150);
+    }
+
+    // Carregar métricas adicionais via AJAX
+    loadAdditionalMetrics();
 });
+
+function loadAdditionalMetrics() {
+    axios.get('{{ route("dashboard.metrics") }}')
+        .then(function (response) {
+            // Atualizar elementos com métricas adicionais se necessário
+            console.log('Métricas adicionais carregadas:', response.data);
+        })
+        .catch(function (error) {
+            console.error('Erro ao carregar métricas:', error);
+        });
+}
 </script>
 @endsection
