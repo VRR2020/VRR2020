@@ -57,6 +57,19 @@ Route::get('templates/{template}/exportar', 'TemplatesController@exportar')->nam
 Route::post('templates/importar', 'TemplatesController@importar')->name('templates.importar');
 Route::post('templates/{template}/preview', 'TemplatesController@preview')->name('templates.preview');
 
+// Segmentação Inteligente
+Route::get('segmentacao', 'SegmentacaoController@index')->name('segmentacao.index');
+Route::get('segmentacao/construtor', 'SegmentacaoController@construtor')->name('segmentacao.construtor');
+Route::post('segmentacao/processar', 'SegmentacaoController@processar')->name('segmentacao.processar');
+Route::post('segmentacao/salvar', 'SegmentacaoController@salvarSegmento')->name('segmentacao.salvar');
+Route::get('segmentacao/sugestoes', 'SegmentacaoController@sugestoes')->name('segmentacao.sugestoes');
+Route::get('segmentacao/analise-comportamento', 'SegmentacaoController@analiseComportamento')->name('segmentacao.analise-comportamento');
+Route::post('segmentacao/exportar', 'SegmentacaoController@exportar')->name('segmentacao.exportar');
+
+// API routes para segmentação
+Route::get('api/segmentacao/cidadaos', 'SegmentacaoController@buscarCidadaos')->name('api.segmentacao.cidadaos');
+Route::get('api/segmentacao/opcoes-filtro', 'SegmentacaoController@opcoesFiltro')->name('api.segmentacao.opcoes');
+
 // Relatórios
 Route::get('relatorios', 'RelatoriosController@index')->name('relatorios.index');
 Route::get('relatorios/export/{tipo}', 'RelatoriosController@export')->name('relatorios.export');
