@@ -218,8 +218,7 @@
             
             // Simular autenticação para demonstração
             if (email === 'admin@crm.com' && password === '123456') {
-                alert('Login realizado com sucesso! Redirecionando para o dashboard...');
-                // Em um ambiente real, redirecionaria para /dashboard
+                // Redirecionar direto sem pop-up
                 window.location.href = 'dashboard-demo.html';
             } else {
                 errorMessage.style.display = 'block';
