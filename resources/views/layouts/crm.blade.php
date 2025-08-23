@@ -106,8 +106,8 @@
                             Interações
                         </a>
 
-                        <a class="nav-link" href="#">
-                            <i class="bi bi-tags me-2"></i>
+                        <a class="nav-link {{ Request::routeIs('segmentacao.*') ? 'active' : '' }}" href="{{ route('segmentacao.index') }}">
+                            <i class="bi bi-funnel me-2"></i>
                             Segmentação
                         </a>
                         
