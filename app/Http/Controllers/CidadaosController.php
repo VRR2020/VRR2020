@@ -81,7 +81,7 @@ class CidadaosController extends Controller
         $dados['nivel_engajamento'] = $dados['nivel_engajamento'] ?? 'baixo';
 
         // Criar o cidadão
-        \App\Models\Cidadao::create($dados);
+        Cidadao::create($dados);
 
         return redirect()->route('cidadaos.index')
             ->with('success', 'Cidadão cadastrado com sucesso!');
