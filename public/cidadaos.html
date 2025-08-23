@@ -360,36 +360,38 @@
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Nome Completo *</label>
-                                <input type="text" class="form-control" required>
+                                <input type="text" class="form-control" name="nome" id="nome" required>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">CPF</label>
-                                <input type="text" class="form-control" placeholder="000.000.000-00">
+                                <label class="form-label">CPF *</label>
+                                <input type="text" class="form-control" name="cpf" id="cpf" placeholder="000.000.000-00" required>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Email</label>
-                                <input type="email" class="form-control">
+                                <label class="form-label">Email *</label>
+                                <input type="email" class="form-control" name="email" id="email" required>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Telefone</label>
-                                <input type="tel" class="form-control" placeholder="(11) 99999-9999">
+                                <label class="form-label">Telefone *</label>
+                                <input type="tel" class="form-control" name="telefone" id="telefone" placeholder="(11) 99999-9999" required>
                             </div>
                             <div class="col-md-6 mb-3">
-                                <label class="form-label">Bairro</label>
-                                <select class="form-select">
+                                <label class="form-label">Bairro *</label>
+                                <select class="form-select" name="bairro" id="bairro" required>
                                     <option value="">Selecione o bairro</option>
-                                    <option value="centro">Centro</option>
-                                    <option value="vila-nova">Vila Nova</option>
-                                    <option value="jardim-europa">Jardim Europa</option>
+                                    <option value="Centro">Centro</option>
+                                    <option value="Vila Nova">Vila Nova</option>
+                                    <option value="Jardim Europa">Jardim Europa</option>
+                                    <option value="Bela Vista">Bela Vista</option>
+                                    <option value="São João">São João</option>
                                 </select>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <label class="form-label">Idade</label>
-                                <input type="number" class="form-control" min="16" max="120">
+                                <input type="number" class="form-control" name="idade" id="idade" min="16" max="120">
                             </div>
                             <div class="col-12 mb-3">
                                 <label class="form-label">Observações</label>
-                                <textarea class="form-control" rows="3" placeholder="Informações adicionais sobre o cidadão..."></textarea>
+                                <textarea class="form-control" name="observacoes" id="observacoes" rows="3" placeholder="Informações adicionais sobre o cidadão..."></textarea>
                             </div>
                         </div>
                     </div>
