@@ -1,0 +1,81 @@
+<!-- Sidebar Navigation Component -->
+<div class="col-12 col-md-3 col-lg-2 sidebar">
+    <div class="p-3">
+        <h4 class="text-white mb-4">
+            <i class="bi bi-building"></i>
+            CRM Legislativo
+        </h4>
+        
+        <nav class="nav flex-column">
+            <a class="nav-link" href="dashboard-demo.html" data-page="dashboard">
+                <i class="bi bi-speedometer2 me-2"></i>
+                Dashboard
+            </a>
+            
+            <a class="nav-link" href="cidadaos.html" data-page="cidadaos">
+                <i class="bi bi-people me-2"></i>
+                Cidadãos
+            </a>
+            
+            <a class="nav-link" href="demandas.html" data-page="demandas">
+                <i class="bi bi-clipboard-check me-2"></i>
+                Demandas
+            </a>
+
+            <a class="nav-link" href="agendamentos.html" data-page="agendamentos">
+                <i class="bi bi-calendar-event me-2"></i>
+                Follow-up
+            </a>
+
+            <a class="nav-link" href="templates.html" data-page="templates">
+                <i class="bi bi-file-text me-2"></i>
+                Templates
+            </a>
+
+            <a class="nav-link" href="interacoes.html" data-page="interacoes">
+                <i class="bi bi-clock-history me-2"></i>
+                Interações
+            </a>
+
+            <a class="nav-link" href="segmentacao.html" data-page="segmentacao">
+                <i class="bi bi-funnel me-2"></i>
+                Segmentação
+            </a>
+            
+            <a class="nav-link" href="relatorios.html" data-page="relatorios">
+                <i class="bi bi-graph-up me-2"></i>
+                Relatórios
+            </a>
+            
+            <hr class="text-white-50 my-3">
+            
+            <a class="nav-link" href="#">
+                <i class="bi bi-gear me-2"></i>
+                Configurações
+            </a>
+            
+            <a class="nav-link" href="#">
+                <i class="bi bi-question-circle me-2"></i>
+                Ajuda
+            </a>
+        </nav>
+    </div>
+</div>
+
+<script>
+// Highlight active page
+document.addEventListener('DOMContentLoaded', function() {
+    const currentPage = window.location.pathname.split('/').pop().replace('.html', '');
+    const navLinks = document.querySelectorAll('.nav-link[data-page]');
+    
+    navLinks.forEach(link => {
+        const page = link.getAttribute('data-page');
+        if ((currentPage === 'dashboard-demo' && page === 'dashboard') || 
+            currentPage === page) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
+    });
+});
+</script>
