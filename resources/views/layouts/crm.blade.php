@@ -90,17 +90,22 @@
                             <i class="bi bi-clipboard-check me-2"></i>
                             Demandas
                         </a>
-                        
+
+                        <a class="nav-link {{ Request::routeIs('agendamentos.*') ? 'active' : '' }}" href="{{ route('agendamentos.index') }}">
+                            <i class="bi bi-calendar-event me-2"></i>
+                            Follow-up
+                        </a>
+
+                        <a class="nav-link {{ Request::routeIs('templates.*') ? 'active' : '' }}" href="{{ route('templates.index') }}">
+                            <i class="bi bi-file-text me-2"></i>
+                            Templates
+                        </a>
+
                         <a class="nav-link" href="#">
                             <i class="bi bi-clock-history me-2"></i>
                             Interações
                         </a>
-                        
-                        <a class="nav-link" href="#">
-                            <i class="bi bi-calendar-event me-2"></i>
-                            Follow-up
-                        </a>
-                        
+
                         <a class="nav-link" href="#">
                             <i class="bi bi-tags me-2"></i>
                             Segmentação
