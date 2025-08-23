@@ -45,10 +45,43 @@ class CidadaosController extends Controller
             'telefone' => 'required|string|max:20',
             'bairro' => 'required|string|max:100',
             'idade' => 'nullable|integer|min:16|max:120',
+            'data_nascimento' => 'nullable|date',
+            'profissao' => 'nullable|string|max:100',
+            'renda_familiar' => 'nullable|string|max:50',
+            'endereco' => 'nullable|string',
+            'interesses_politicos' => 'nullable|array',
+            'status' => 'nullable|in:lead,engajado,ativo,apoiador,inativo',
+            'nivel_engajamento' => 'nullable|in:baixo,medio,alto',
+            'origem_cadastro' => 'nullable|string|max:100',
+            'observacoes' => 'nullable|string',
+            'redes_sociais' => 'nullable|array'
         ]);
 
-        // TODO: Implementar salvamento no banco
-        
+        // Processar tags (converter string separada por vírgulas em array)
+        $tags = [];
+        if ($request->filled('tags')) {
+            $tags = array_map('trim', explode(',', $request->tags));
+            $tags = array_filter($tags); // Remove valores vazios
+        }
+
+        // Preparar dados para salvamento
+        $dados = $request->only([
+            'nome', 'cpf', 'email', 'telefone', 'bairro', 'endereco',
+            'idade', 'data_nascimento', 'profissao', 'renda_familiar',
+            'interesses_politicos', 'status', 'nivel_engajamento',
+            'origem_cadastro', 'observacoes', 'redes_sociais'
+        ]);
+
+        // Adicionar tags processadas
+        $dados['tags'] = $tags;
+
+        // Definir valores padrão se não informados
+        $dados['status'] = $dados['status'] ?? 'lead';
+        $dados['nivel_engajamento'] = $dados['nivel_engajamento'] ?? 'baixo';
+
+        // Criar o cidadão
+        \App\Models\Cidadao::create($dados);
+
         return redirect()->route('cidadaos.index')
             ->with('success', 'Cidadão cadastrado com sucesso!');
     }
