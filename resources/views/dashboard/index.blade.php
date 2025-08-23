@@ -19,7 +19,12 @@
                     </div>
                 </div>
                 <small class="text-white-50">
-                    <i class="bi bi-arrow-up"></i> +12% vs mês anterior
+                    @if($metrics['crescimento_cidadaos'] >= 0)
+                        <i class="bi bi-arrow-up"></i> +{{ $metrics['crescimento_cidadaos'] }}%
+                    @else
+                        <i class="bi bi-arrow-down"></i> {{ $metrics['crescimento_cidadaos'] }}%
+                    @endif
+                    vs mês anterior
                 </small>
             </div>
         </div>
