@@ -43,7 +43,12 @@
                     </div>
                 </div>
                 <small class="text-white-50">
-                    <i class="bi bi-arrow-down"></i> -5% vs mês anterior
+                    @if($metrics['crescimento_demandas'] >= 0)
+                        <i class="bi bi-arrow-up"></i> +{{ $metrics['crescimento_demandas'] }}%
+                    @else
+                        <i class="bi bi-arrow-down"></i> {{ $metrics['crescimento_demandas'] }}%
+                    @endif
+                    vs mês anterior
                 </small>
             </div>
         </div>
@@ -62,7 +67,7 @@
                     </div>
                 </div>
                 <small class="text-white-50">
-                    <i class="bi bi-arrow-up"></i> +18% vs mês anterior
+                    Taxa de resolução: {{ $metrics['demandas_resolvidas'] > 0 ? round(($metrics['demandas_resolvidas'] / ($metrics['demandas_resolvidas'] + $metrics['demandas_abertas'])) * 100, 1) : 0 }}%
                 </small>
             </div>
         </div>
@@ -81,7 +86,12 @@
                     </div>
                 </div>
                 <small class="text-white-50">
-                    <i class="bi bi-arrow-up"></i> +25% vs mês anterior
+                    @if($metrics['crescimento_interacoes'] >= 0)
+                        <i class="bi bi-arrow-up"></i> +{{ $metrics['crescimento_interacoes'] }}%
+                    @else
+                        <i class="bi bi-arrow-down"></i> {{ $metrics['crescimento_interacoes'] }}%
+                    @endif
+                    vs mês anterior
                 </small>
             </div>
         </div>
@@ -135,25 +145,25 @@
                     <div class="col-6 col-md-3 mb-3">
                         <div class="p-3 bg-light rounded">
                             <h6 class="text-muted mb-1">Leads</h6>
-                            <h4 class="text-primary mb-0">150</h4>
+                            <h4 class="text-primary mb-0">{{ $graficos['pipeline']['leads'] }}</h4>
                         </div>
                     </div>
                     <div class="col-6 col-md-3 mb-3">
                         <div class="p-3 bg-light rounded">
                             <h6 class="text-muted mb-1">Engajados</h6>
-                            <h4 class="text-info mb-0">89</h4>
+                            <h4 class="text-info mb-0">{{ $graficos['pipeline']['engajados'] }}</h4>
                         </div>
                     </div>
                     <div class="col-6 col-md-3 mb-3">
                         <div class="p-3 bg-light rounded">
                             <h6 class="text-muted mb-1">Ativos</h6>
-                            <h4 class="text-warning mb-0">45</h4>
+                            <h4 class="text-warning mb-0">{{ $graficos['pipeline']['ativos'] }}</h4>
                         </div>
                     </div>
                     <div class="col-6 col-md-3 mb-3">
                         <div class="p-3 bg-light rounded">
                             <h6 class="text-muted mb-1">Apoiadores</h6>
-                            <h4 class="text-success mb-0">23</h4>
+                            <h4 class="text-success mb-0">{{ $graficos['pipeline']['apoiadores'] }}</h4>
                         </div>
                     </div>
                 </div>
@@ -202,27 +212,19 @@
             </div>
             <div class="card-body">
                 <div class="list-group list-group-flush">
-                    <div class="list-group-item d-flex justify-content-between align-items-start border-0">
-                        <div class="ms-2 me-auto">
-                            <div class="fw-bold">João Silva cadastrou nova demanda</div>
-                            <small class="text-muted">Solicitação de reparo na Rua das Flores</small>
+                    @forelse($graficos['atividade_recente'] as $atividade)
+                        <div class="list-group-item d-flex justify-content-between align-items-start border-0">
+                            <div class="ms-2 me-auto">
+                                <div class="fw-bold">{{ $atividade['descricao'] }}</div>
+                                <small class="text-muted">{{ $atividade['detalhes'] }}</small>
+                            </div>
+                            <small class="text-muted">{{ $atividade['created_at']->diffForHumans() }}</small>
                         </div>
-                        <small class="text-muted">2 min atrás</small>
-                    </div>
-                    <div class="list-group-item d-flex justify-content-between align-items-start border-0">
-                        <div class="ms-2 me-auto">
-                            <div class="fw-bold">Maria Santos foi cadastrada</div>
-                            <small class="text-muted">Nova cidadã no bairro Centro</small>
+                    @empty
+                        <div class="list-group-item border-0">
+                            <p class="text-muted mb-0">Nenhuma atividade recente encontrada.</p>
                         </div>
-                        <small class="text-muted">15 min atrás</small>
-                    </div>
-                    <div class="list-group-item d-flex justify-content-between align-items-start border-0">
-                        <div class="ms-2 me-auto">
-                            <div class="fw-bold">Demanda #123 foi resolvida</div>
-                            <small class="text-muted">Limpeza da praça concluída</small>
-                        </div>
-                        <small class="text-muted">1 hora atrás</small>
-                    </div>
+                    @endforelse
                 </div>
             </div>
         </div>
