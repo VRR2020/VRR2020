@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Templates - CRM Legislativo</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    
+    <style>
+        .sidebar {
+            min-height: 100vh;
+            background: linear-gradient(180deg, #1e3a8a 0%, #1e40af 100%);
+        }
+        .sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            margin: 2px 0;
+            transition: all 0.3s ease;
+        }
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .main-content {
+            background-color: #f8fafc;
+            min-height: 100vh;
+        }
+        .card {
+            border: none;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+        }
+        .template-card { transition: transform 0.2s ease; }
+        .template-card:hover { transform: translateY(-2px); }
+    </style>
+</head>
+<body>
+    <div class="container-fluid p-0">
+        <div class="row g-0">
+            <!-- Sidebar -->
+            <div class="col-12 col-md-3 col-lg-2 sidebar">
+                <div class="p-3">
+                    <h4 class="text-white mb-4">
+                        <i class="bi bi-building"></i>
+                        CRM Legislativo
+                    </h4>
+                    
+                    <nav class="nav flex-column">
+                        <a class="nav-link" href="dashboard-demo.html">
+                            <i class="bi bi-speedometer2 me-2"></i>
+                            Dashboard
+                        </a>
+                        
+                        <a class="nav-link" href="cidadaos.html">
+                            <i class="bi bi-people me-2"></i>
+                            Cidadãos
+                        </a>
+                        
+                        <a class="nav-link" href="demandas.html">
+                            <i class="bi bi-clipboard-check me-2"></i>
+                            Demandas
+                        </a>
+
+                        <a class="nav-link" href="agendamentos.html">
+                            <i class="bi bi-calendar-event me-2"></i>
+                            Follow-up
+                        </a>
+
+                        <a class="nav-link active" href="templates.html">
+                            <i class="bi bi-file-text me-2"></i>
+                            Templates
+                        </a>
+
+                        <a class="nav-link" href="interacoes.html">
+                            <i class="bi bi-clock-history me-2"></i>
+                            Interações
+                        </a>
+
+                        <a class="nav-link" href="segmentacao.html">
+                            <i class="bi bi-funnel me-2"></i>
+                            Segmentação
+                        </a>
+                        
+                        <a class="nav-link" href="relatorios.html">
+                            <i class="bi bi-graph-up me-2"></i>
+                            Relatórios
+                        </a>
+                        
+                        <hr class="text-white-50 my-3">
+                        
+                        <a class="nav-link" href="#">
+                            <i class="bi bi-gear me-2"></i>
+                            Configurações
+                        </a>
+                        
+                        <a class="nav-link" href="#">
+                            <i class="bi bi-question-circle me-2"></i>
+                            Ajuda
+                        </a>
+                    </nav>
+                </div>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="col-12 col-md-9 col-lg-10 main-content">
+                <!-- Top Navigation -->
+                <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+                    <div class="container-fluid">
+                        <span class="navbar-brand mb-0 h1">Templates de Mensagem</span>
+                        
+                        <div class="navbar-nav ms-auto">
+                            <div class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                                    <i class="bi bi-person-circle me-1"></i>
+                                    Administrador
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Perfil</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Configurações</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="login.html"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+                
+                <!-- Page Content -->
+                <div class="container-fluid p-4">
+                    <!-- Header Actions -->
+                    <div class="row mb-4">
+                        <div class="col-md-8">
+                            <h2>
+                                <i class="bi bi-file-text me-2 text-primary"></i>
+                                Biblioteca de Templates
+                            </h2>
+                            <p class="text-muted">Crie e gerencie templates de mensagens para WhatsApp, Email e SMS</p>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#novoTemplateModal">
+                                <i class="bi bi-plus-circle me-2"></i>
+                                Novo Template
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Estatísticas dos Templates -->
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <div class="card text-white bg-success">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h4>24</h4>
+                                            <p class="mb-0">WhatsApp</p>
+                                        </div>
+                                        <i class="bi bi-whatsapp" style="font-size: 2rem;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card text-white bg-primary">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h4>18</h4>
+                                            <p class="mb-0">Email</p>
+                                        </div>
+                                        <i class="bi bi-envelope" style="font-size: 2rem;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card text-white bg-info">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h4>12</h4>
+                                            <p class="mb-0">SMS</p>
+                                        </div>
+                                        <i class="bi bi-chat-square-text" style="font-size: 2rem;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card text-white bg-warning">
+                                <div class="card-body">
+                                    <div class="d-flex justify-content-between">
+                                        <div>
+                                            <h4>8</h4>
+                                            <p class="mb-0">Rascunhos</p>
+                                        </div>
+                                        <i class="bi bi-file-earmark-text" style="font-size: 2rem;"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Filtros -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-3">
+                                    <label class="form-label">Canal</label>
+                                    <select class="form-select">
+                                        <option value="">Todos os canais</option>
+                                        <option value="whatsapp">WhatsApp</option>
+                                        <option value="email">Email</option>
+                                        <option value="sms">SMS</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Categoria</label>
+                                    <select class="form-select">
+                                        <option value="">Todas as categorias</option>
+                                        <option value="followup">Follow-up</option>
+                                        <option value="informativo">Informativo</option>
+                                        <option value="pesquisa">Pesquisa</option>
+                                        <option value="evento">Evento</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">Status</label>
+                                    <select class="form-select">
+                                        <option value="">Todos os status</option>
+                                        <option value="ativo">Ativo</option>
+                                        <option value="rascunho">Rascunho</option>
+                                        <option value="arquivado">Arquivado</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label class="form-label">&nbsp;</label>
+                                    <button class="btn btn-outline-primary d-block w-100">
+                                        <i class="bi bi-funnel me-2"></i>
+                                        Filtrar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Grid de Templates -->
+                    <div class="row">
+                        <!-- Template WhatsApp -->
+                        <div class="col-lg-6 col-xl-4 mb-4">
+                            <div class="card template-card h-100">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-whatsapp text-success me-2"></i>
+                                        <span class="fw-semibold">WhatsApp</span>
+                                    </div>
+                                    <span class="badge bg-success">Ativo</span>
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="card-title">Acompanhamento de Demanda</h6>
+                                    <p class="card-text text-muted small">
+                                        Olá {{nome}}! Temos uma atualização sobre sua demanda #{{numero}}...
+                                    </p>
+                                    <div class="mb-2">
+                                        <small class="text-muted">
+                                            <i class="bi bi-tag me-1"></i>Follow-up
+                                            <i class="bi bi-send ms-3 me-1"></i>142 usos
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="btn-group w-100" role="group">
+                                        <button type="button" class="btn btn-outline-primary btn-sm">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary btn-sm">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-info btn-sm">
+                                            <i class="bi bi-files"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-success btn-sm">
+                                            <i class="bi bi-send"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Template Email -->
+                        <div class="col-lg-6 col-xl-4 mb-4">
+                            <div class="card template-card h-100">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-envelope text-primary me-2"></i>
+                                        <span class="fw-semibold">Email</span>
+                                    </div>
+                                    <span class="badge bg-success">Ativo</span>
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="card-title">Newsletter Mensal</h6>
+                                    <p class="card-text text-muted small">
+                                        Prezado(a) {{nome}}, confira as principais atualizações da nossa cidade...
+                                    </p>
+                                    <div class="mb-2">
+                                        <small class="text-muted">
+                                            <i class="bi bi-tag me-1"></i>Informativo
+                                            <i class="bi bi-send ms-3 me-1"></i>89 usos
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="btn-group w-100" role="group">
+                                        <button type="button" class="btn btn-outline-primary btn-sm">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary btn-sm">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-info btn-sm">
+                                            <i class="bi bi-files"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-success btn-sm">
+                                            <i class="bi bi-send"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Template SMS -->
+                        <div class="col-lg-6 col-xl-4 mb-4">
+                            <div class="card template-card h-100">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-chat-square-text text-info me-2"></i>
+                                        <span class="fw-semibold">SMS</span>
+                                    </div>
+                                    <span class="badge bg-success">Ativo</span>
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="card-title">Lembrete de Evento</h6>
+                                    <p class="card-text text-muted small">
+                                        {{nome}}, lembre-se: evento {{evento}} em {{data}} às {{hora}}...
+                                    </p>
+                                    <div class="mb-2">
+                                        <small class="text-muted">
+                                            <i class="bi bi-tag me-1"></i>Evento
+                                            <i class="bi bi-send ms-3 me-1"></i>56 usos
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="btn-group w-100" role="group">
+                                        <button type="button" class="btn btn-outline-primary btn-sm">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary btn-sm">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-info btn-sm">
+                                            <i class="bi bi-files"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-success btn-sm">
+                                            <i class="bi bi-send"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Template Rascunho -->
+                        <div class="col-lg-6 col-xl-4 mb-4">
+                            <div class="card template-card h-100">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-whatsapp text-success me-2"></i>
+                                        <span class="fw-semibold">WhatsApp</span>
+                                    </div>
+                                    <span class="badge bg-warning">Rascunho</span>
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="card-title">Pesquisa de Satisfação</h6>
+                                    <p class="card-text text-muted small">
+                                        Olá {{nome}}! Gostaríamos de saber sua opinião sobre...
+                                    </p>
+                                    <div class="mb-2">
+                                        <small class="text-muted">
+                                            <i class="bi bi-tag me-1"></i>Pesquisa
+                                            <i class="bi bi-send ms-3 me-1"></i>0 usos
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="btn-group w-100" role="group">
+                                        <button type="button" class="btn btn-outline-primary btn-sm">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary btn-sm">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-warning btn-sm">
+                                            <i class="bi bi-check-circle"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-danger btn-sm">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mais templates... -->
+                        <div class="col-lg-6 col-xl-4 mb-4">
+                            <div class="card template-card h-100">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-envelope text-primary me-2"></i>
+                                        <span class="fw-semibold">Email</span>
+                                    </div>
+                                    <span class="badge bg-success">Ativo</span>
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="card-title">Convite para Audiência</h6>
+                                    <p class="card-text text-muted small">
+                                        Prezado(a) {{nome}}, você está convidado(a) para participar...
+                                    </p>
+                                    <div class="mb-2">
+                                        <small class="text-muted">
+                                            <i class="bi bi-tag me-1"></i>Evento
+                                            <i class="bi bi-send ms-3 me-1"></i>34 usos
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="btn-group w-100" role="group">
+                                        <button type="button" class="btn btn-outline-primary btn-sm">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary btn-sm">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-info btn-sm">
+                                            <i class="bi bi-files"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-success btn-sm">
+                                            <i class="bi bi-send"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-6 col-xl-4 mb-4">
+                            <div class="card template-card h-100">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <div class="d-flex align-items-center">
+                                        <i class="bi bi-chat-square-text text-info me-2"></i>
+                                        <span class="fw-semibold">SMS</span>
+                                    </div>
+                                    <span class="badge bg-success">Ativo</span>
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="card-title">Alerta de Emergência</h6>
+                                    <p class="card-text text-muted small">
+                                        ALERTA: {{titulo}}. Mais informações em {{link}}...
+                                    </p>
+                                    <div class="mb-2">
+                                        <small class="text-muted">
+                                            <i class="bi bi-tag me-1"></i>Emergência
+                                            <i class="bi bi-send ms-3 me-1"></i>12 usos
+                                        </small>
+                                    </div>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="btn-group w-100" role="group">
+                                        <button type="button" class="btn btn-outline-primary btn-sm">
+                                            <i class="bi bi-eye"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-secondary btn-sm">
+                                            <i class="bi bi-pencil"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-info btn-sm">
+                                            <i class="bi bi-files"></i>
+                                        </button>
+                                        <button type="button" class="btn btn-outline-success btn-sm">
+                                            <i class="bi bi-send"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Novo Template -->
+    <div class="modal fade" id="novoTemplateModal" tabindex="-1">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Criar Novo Template</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Nome do Template *</label>
+                                <input type="text" class="form-control" required>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">Canal *</label>
+                                <select class="form-select" required>
+                                    <option value="">Selecione</option>
+                                    <option value="whatsapp">WhatsApp</option>
+                                    <option value="email">Email</option>
+                                    <option value="sms">SMS</option>
+                                </select>
+                            </div>
+                            <div class="col-md-3 mb-3">
+                                <label class="form-label">Categoria *</label>
+                                <select class="form-select" required>
+                                    <option value="">Selecione</option>
+                                    <option value="followup">Follow-up</option>
+                                    <option value="informativo">Informativo</option>
+                                    <option value="pesquisa">Pesquisa</option>
+                                    <option value="evento">Evento</option>
+                                    <option value="emergencia">Emergência</option>
+                                </select>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label class="form-label">Assunto (para Email)</label>
+                                <input type="text" class="form-control" placeholder="Ex: Atualizações da sua demanda">
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label class="form-label">Conteúdo da Mensagem *</label>
+                                <textarea class="form-control" rows="6" required placeholder="Digite o conteúdo da mensagem. Use {{variavel}} para campos dinâmicos."></textarea>
+                                <div class="form-text">
+                                    <strong>Variáveis disponíveis:</strong> {{nome}}, {{numero}}, {{data}}, {{hora}}, {{evento}}, {{link}}
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="alert alert-info">
+                                    <i class="bi bi-info-circle me-2"></i>
+                                    <strong>Prévia:</strong> A mensagem será renderizada com as variáveis substituídas pelos dados reais antes do envio.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-outline-primary me-2">Salvar como Rascunho</button>
+                        <button type="submit" class="btn btn-primary">Criar Template</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

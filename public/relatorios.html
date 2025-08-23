@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Relatórios - CRM Legislativo</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <style>
+        .sidebar {
+            min-height: 100vh;
+            background: linear-gradient(180deg, #1e3a8a 0%, #1e40af 100%);
+        }
+        .sidebar .nav-link {
+            color: rgba(255, 255, 255, 0.8);
+            border-radius: 8px;
+            margin: 2px 0;
+            transition: all 0.3s ease;
+        }
+        .sidebar .nav-link:hover,
+        .sidebar .nav-link.active {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .main-content {
+            background-color: #f8fafc;
+            min-height: 100vh;
+        }
+        .card {
+            border: none;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 12px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+        }
+        .report-card { transition: transform 0.2s ease; }
+        .report-card:hover { transform: translateY(-2px); }
+        .metric-display {
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid p-0">
+        <div class="row g-0">
+            <!-- Sidebar -->
+            <div class="col-12 col-md-3 col-lg-2 sidebar">
+                <div class="p-3">
+                    <h4 class="text-white mb-4">
+                        <i class="bi bi-building"></i>
+                        CRM Legislativo
+                    </h4>
+                    
+                    <nav class="nav flex-column">
+                        <a class="nav-link" href="dashboard-demo.html">
+                            <i class="bi bi-speedometer2 me-2"></i>
+                            Dashboard
+                        </a>
+                        
+                        <a class="nav-link" href="cidadaos.html">
+                            <i class="bi bi-people me-2"></i>
+                            Cidadãos
+                        </a>
+                        
+                        <a class="nav-link" href="demandas.html">
+                            <i class="bi bi-clipboard-check me-2"></i>
+                            Demandas
+                        </a>
+
+                        <a class="nav-link" href="agendamentos.html">
+                            <i class="bi bi-calendar-event me-2"></i>
+                            Follow-up
+                        </a>
+
+                        <a class="nav-link" href="templates.html">
+                            <i class="bi bi-file-text me-2"></i>
+                            Templates
+                        </a>
+
+                        <a class="nav-link" href="interacoes.html">
+                            <i class="bi bi-clock-history me-2"></i>
+                            Interações
+                        </a>
+
+                        <a class="nav-link" href="segmentacao.html">
+                            <i class="bi bi-funnel me-2"></i>
+                            Segmentação
+                        </a>
+                        
+                        <a class="nav-link active" href="relatorios.html">
+                            <i class="bi bi-graph-up me-2"></i>
+                            Relatórios
+                        </a>
+                        
+                        <hr class="text-white-50 my-3">
+                        
+                        <a class="nav-link" href="#">
+                            <i class="bi bi-gear me-2"></i>
+                            Configurações
+                        </a>
+                        
+                        <a class="nav-link" href="#">
+                            <i class="bi bi-question-circle me-2"></i>
+                            Ajuda
+                        </a>
+                    </nav>
+                </div>
+            </div>
+            
+            <!-- Main Content -->
+            <div class="col-12 col-md-9 col-lg-10 main-content">
+                <!-- Top Navigation -->
+                <nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm">
+                    <div class="container-fluid">
+                        <span class="navbar-brand mb-0 h1">Central de Relatórios</span>
+                        
+                        <div class="navbar-nav ms-auto">
+                            <div class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown" role="button" data-bs-toggle="dropdown">
+                                    <i class="bi bi-person-circle me-1"></i>
+                                    Administrador
+                                </a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="#"><i class="bi bi-person me-2"></i>Perfil</a></li>
+                                    <li><a class="dropdown-item" href="#"><i class="bi bi-gear me-2"></i>Configurações</a></li>
+                                    <li><hr class="dropdown-divider"></li>
+                                    <li><a class="dropdown-item" href="login.html"><i class="bi bi-box-arrow-right me-2"></i>Sair</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+                
+                <!-- Page Content -->
+                <div class="container-fluid p-4">
+                    <!-- Header Actions -->
+                    <div class="row mb-4">
+                        <div class="col-md-8">
+                            <h2>
+                                <i class="bi bi-graph-up me-2 text-primary"></i>
+                                Relatórios e Analytics
+                            </h2>
+                            <p class="text-muted">Acompanhe métricas, gere relatórios e analise o desempenho</p>
+                        </div>
+                        <div class="col-md-4 text-end">
+                            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#customReportModal">
+                                <i class="bi bi-plus-circle me-2"></i>
+                                Relatório Personalizado
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Filtros de Período -->
+                    <div class="card mb-4">
+                        <div class="card-body">
+                            <div class="row g-3 align-items-end">
+                                <div class="col-md-3">
+                                    <label class="form-label">Período</label>
+                                    <select class="form-select" id="periodFilter">
+                                        <option value="hoje">Hoje</option>
+                                        <option value="semana">Esta Semana</option>
+                                        <option value="mes" selected>Este Mês</option>
+                                        <option value="trimestre">Últimos 3 Meses</option>
+                                        <option value="ano">Este Ano</option>
+                                        <option value="custom">Período Personalizado</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-3" id="customDateStart" style="display: none;">
+                                    <label class="form-label">Data Inicial</label>
+                                    <input type="date" class="form-control">
+                                </div>
+                                <div class="col-md-3" id="customDateEnd" style="display: none;">
+                                    <label class="form-label">Data Final</label>
+                                    <input type="date" class="form-control">
+                                </div>
+                                <div class="col-md-3">
+                                    <button class="btn btn-outline-primary w-100">
+                                        <i class="bi bi-arrow-clockwise me-2"></i>
+                                        Atualizar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Métricas Principais -->
+                    <div class="row mb-4">
+                        <div class="col-md-3">
+                            <div class="card text-white bg-primary h-100">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-people mb-2" style="font-size: 2rem;"></i>
+                                    <div class="metric-display">1,247</div>
+                                    <h6>Total Cidadãos</h6>
+                                    <small>+12% vs período anterior</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card text-white bg-warning h-100">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-clipboard-check mb-2" style="font-size: 2rem;"></i>
+                                    <div class="metric-display">545</div>
+                                    <h6>Total Demandas</h6>
+                                    <small>89 abertas, 456 resolvidas</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card text-white bg-info h-100">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-chat-dots mb-2" style="font-size: 2rem;"></i>
+                                    <div class="metric-display">2,340</div>
+                                    <h6>Interações</h6>
+                                    <small>342 este mês</small>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card text-white bg-success h-100">
+                                <div class="card-body text-center">
+                                    <i class="bi bi-check-circle mb-2" style="font-size: 2rem;"></i>
+                                    <div class="metric-display">83.7%</div>
+                                    <h6>Taxa Resolução</h6>
+                                    <small>+5.2% vs mês anterior</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <!-- Gráficos -->
+                        <div class="col-lg-8">
+                            <!-- Evolução Temporal -->
+                            <div class="card mb-4">
+                                <div class="card-header d-flex justify-content-between align-items-center">
+                                    <h5 class="mb-0">Evolução Temporal</h5>
+                                    <div class="btn-group btn-group-sm" role="group">
+                                        <input type="radio" class="btn-check" name="chartType" id="cidadaos" checked>
+                                        <label class="btn btn-outline-primary" for="cidadaos">Cidadãos</label>
+                                        
+                                        <input type="radio" class="btn-check" name="chartType" id="demandas">
+                                        <label class="btn btn-outline-primary" for="demandas">Demandas</label>
+                                        
+                                        <input type="radio" class="btn-check" name="chartType" id="interacoes">
+                                        <label class="btn btn-outline-primary" for="interacoes">Interações</label>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <canvas id="evolutionChart" height="300"></canvas>
+                                </div>
+                            </div>
+
+                            <!-- Distribuição por Categoria -->
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="card mb-4">
+                                        <div class="card-header">
+                                            <h5 class="mb-0">Demandas por Categoria</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <canvas id="categoryChart" height="250"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="card mb-4">
+                                        <div class="card-header">
+                                            <h5 class="mb-0">Cidadãos por Bairro</h5>
+                                        </div>
+                                        <div class="card-body">
+                                            <canvas id="neighborhoodChart" height="250"></canvas>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Relatórios Rápidos -->
+                        <div class="col-lg-4">
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Relatórios Rápidos</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-grid gap-2">
+                                        <button class="btn btn-outline-primary report-card">
+                                            <i class="bi bi-people me-2"></i>
+                                            Lista de Cidadãos
+                                        </button>
+                                        <button class="btn btn-outline-warning report-card">
+                                            <i class="bi bi-clipboard-check me-2"></i>
+                                            Demandas em Aberto
+                                        </button>
+                                        <button class="btn btn-outline-info report-card">
+                                            <i class="bi bi-clock-history me-2"></i>
+                                            Histórico de Interações
+                                        </button>
+                                        <button class="btn btn-outline-success report-card">
+                                            <i class="bi bi-check-circle me-2"></i>
+                                            Demandas Resolvidas
+                                        </button>
+                                        <button class="btn btn-outline-secondary report-card">
+                                            <i class="bi bi-calendar-event me-2"></i>
+                                            Follow-ups Pendentes
+                                        </button>
+                                        <button class="btn btn-outline-danger report-card">
+                                            <i class="bi bi-exclamation-triangle me-2"></i>
+                                            Cidadãos Inativos
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Top Performers -->
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Melhores Resultados</h5>
+                                </div>
+                                <div class="card-body">
+                                    <h6 class="text-muted">Templates Mais Usados</h6>
+                                    <div class="list-group list-group-flush mb-3">
+                                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                                            <small>Acompanhamento Demanda</small>
+                                            <span class="badge bg-primary">142</span>
+                                        </div>
+                                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                                            <small>Newsletter Mensal</small>
+                                            <span class="badge bg-secondary">89</span>
+                                        </div>
+                                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                                            <small>Pesquisa Satisfação</small>
+                                            <span class="badge bg-info">56</span>
+                                        </div>
+                                    </div>
+
+                                    <h6 class="text-muted">Canais Mais Efetivos</h6>
+                                    <div class="list-group list-group-flush">
+                                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                                            <small><i class="bi bi-whatsapp text-success me-1"></i>WhatsApp</small>
+                                            <span class="badge bg-success">89%</span>
+                                        </div>
+                                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                                            <small><i class="bi bi-envelope text-primary me-1"></i>Email</small>
+                                            <span class="badge bg-primary">67%</span>
+                                        </div>
+                                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                                            <small><i class="bi bi-chat-square-text text-info me-1"></i>SMS</small>
+                                            <span class="badge bg-info">45%</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Exportar Dados -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h5 class="mb-0">Exportar Dados</h5>
+                                </div>
+                                <div class="card-body">
+                                    <div class="d-grid gap-2">
+                                        <button class="btn btn-success">
+                                            <i class="bi bi-file-earmark-excel me-2"></i>
+                                            Excel (XLSX)
+                                        </button>
+                                        <button class="btn btn-danger">
+                                            <i class="bi bi-file-earmark-pdf me-2"></i>
+                                            PDF Report
+                                        </button>
+                                        <button class="btn btn-info">
+                                            <i class="bi bi-file-earmark-text me-2"></i>
+                                            CSV Data
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tabela de Performance -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="mb-0">Performance Detalhada</h5>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover mb-0">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>Métrica</th>
+                                        <th>Este Mês</th>
+                                        <th>Mês Anterior</th>
+                                        <th>Variação</th>
+                                        <th>Tendência</th>
+                                        <th>Meta</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td><strong>Novos Cidadãos</strong></td>
+                                        <td>156</td>
+                                        <td>139</td>
+                                        <td class="text-success">+12.2%</td>
+                                        <td><i class="bi bi-arrow-up text-success"></i></td>
+                                        <td>150</td>
+                                        <td><span class="badge bg-success">Atingida</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Taxa de Resolução</strong></td>
+                                        <td>83.7%</td>
+                                        <td>78.5%</td>
+                                        <td class="text-success">+5.2%</td>
+                                        <td><i class="bi bi-arrow-up text-success"></i></td>
+                                        <td>85%</td>
+                                        <td><span class="badge bg-warning">Próximo</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Tempo Médio Resposta</strong></td>
+                                        <td>2.3 dias</td>
+                                        <td>2.8 dias</td>
+                                        <td class="text-success">-17.9%</td>
+                                        <td><i class="bi bi-arrow-down text-success"></i></td>
+                                        <td>2.0 dias</td>
+                                        <td><span class="badge bg-warning">Próximo</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Engajamento</strong></td>
+                                        <td>67%</td>
+                                        <td>71%</td>
+                                        <td class="text-danger">-5.6%</td>
+                                        <td><i class="bi bi-arrow-down text-danger"></i></td>
+                                        <td>70%</td>
+                                        <td><span class="badge bg-danger">Abaixo</span></td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>Satisfação</strong></td>
+                                        <td>4.2/5</td>
+                                        <td>4.1/5</td>
+                                        <td class="text-success">+2.4%</td>
+                                        <td><i class="bi bi-arrow-up text-success"></i></td>
+                                        <td>4.0/5</td>
+                                        <td><span class="badge bg-success">Atingida</span></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Relatório Personalizado -->
+    <div class="modal fade" id="customReportModal" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Criar Relatório Personalizado</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <form>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Nome do Relatório *</label>
+                                <input type="text" class="form-control" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Formato *</label>
+                                <select class="form-select" required>
+                                    <option value="">Selecione</option>
+                                    <option value="excel">Excel (XLSX)</option>
+                                    <option value="pdf">PDF</option>
+                                    <option value="csv">CSV</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Período *</label>
+                                <select class="form-select" required>
+                                    <option value="">Selecione</option>
+                                    <option value="hoje">Hoje</option>
+                                    <option value="semana">Esta Semana</option>
+                                    <option value="mes">Este Mês</option>
+                                    <option value="trimestre">Últimos 3 Meses</option>
+                                    <option value="ano">Este Ano</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label">Envio por Email</label>
+                                <select class="form-select">
+                                    <option value="manual">Manual</option>
+                                    <option value="automatico">Automático (semanal)</option>
+                                    <option value="mensal">Automático (mensal)</option>
+                                </select>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <label class="form-label">Dados a Incluir *</label>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="cidadaos" checked>
+                                            <label class="form-check-label" for="cidadaos">Dados de Cidadãos</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="demandas" checked>
+                                            <label class="form-check-label" for="demandas">Dados de Demandas</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="interacoes">
+                                            <label class="form-check-label" for="interacoes">Histórico de Interações</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="templates">
+                                            <label class="form-check-label" for="templates">Performance de Templates</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="segmentos">
+                                            <label class="form-check-label" for="segmentos">Análise de Segmentos</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="checkbox" id="metricas">
+                                            <label class="form-check-label" for="metricas">Métricas de Performance</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                        <button type="submit" class="btn btn-primary">Gerar Relatório</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Gráfico de Evolução Temporal
+        const ctx1 = document.getElementById('evolutionChart').getContext('2d');
+        new Chart(ctx1, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Fev', 'Mar', 'Abr', 'Mai', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'],
+                datasets: [{
+                    label: 'Novos Cidadãos',
+                    data: [65, 78, 90, 81, 100, 120, 134, 156, 145, 167, 189, 201],
+                    borderColor: '#667eea',
+                    backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        // Gráfico de Demandas por Categoria
+        const ctx2 = document.getElementById('categoryChart').getContext('2d');
+        new Chart(ctx2, {
+            type: 'doughnut',
+            data: {
+                labels: ['Infraestrutura', 'Saúde', 'Educação', 'Segurança', 'Meio Ambiente'],
+                datasets: [{
+                    data: [35, 25, 20, 15, 5],
+                    backgroundColor: ['#667eea', '#764ba2', '#f093fb', '#4facfe', '#43e97b']
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+
+        // Gráfico de Cidadãos por Bairro
+        const ctx3 = document.getElementById('neighborhoodChart').getContext('2d');
+        new Chart(ctx3, {
+            type: 'bar',
+            data: {
+                labels: ['Centro', 'Vila Nova', 'Jardim Europa', 'São José', 'Industrial'],
+                datasets: [{
+                    label: 'Cidadãos',
+                    data: [234, 189, 156, 123, 89],
+                    backgroundColor: '#667eea'
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+
+        // Show/hide custom date fields
+        document.getElementById('periodFilter').addEventListener('change', function() {
+            const customFields = document.querySelectorAll('#customDateStart, #customDateEnd');
+            if (this.value === 'custom') {
+                customFields.forEach(field => field.style.display = 'block');
+            } else {
+                customFields.forEach(field => field.style.display = 'none');
+            }
+        });
+    </script>
+</body>
+</html>
